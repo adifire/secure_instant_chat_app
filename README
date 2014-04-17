@@ -1,0 +1,37 @@
+****************************** SICMAPP ******************************
+Basic Secure Chat Client Implementation
+
+Folder Structure:
+sicmapp
+-- src
+  -- com
+    -- im
+      -- *.java
+-- lib
+  -- *.jar
+-- classes
+  -- *.der
+  -- *.dat
+  -- com
+    -- im
+      -- *.class
+
+In linux, 
+COMPILE:
+  javac -sourcepath src -cp "Test.jar:lib/*" src/com/im/*.java -d classes
+
+EXECUTION:
+  cd classes
+  # Run server
+  java -cp .:../lib/* com.im.Server <port>
+  # Run client
+  java -cp .:../lib/* com.im.Client <server_port>
+
+
+Users for use in this system
+username       password
+alice          alice@123
+bob            bob@123
+thomas         thomas@123
+tommy          tommy@123
+jimmy          jimmy@123
