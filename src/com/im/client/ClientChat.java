@@ -1,7 +1,13 @@
-package com.im;
+package com.im.client;
 
 import com.google.gson.Gson;
+import com.im.common.Fields;
+import com.im.common.HelperFunc;
+import com.im.common.MessageFormat;
+import com.im.cyptoprovider.CryptoAESProvider;
+import com.im.cyptoprovider.CryptoRSAProvider;
 import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;

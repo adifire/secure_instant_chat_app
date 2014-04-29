@@ -1,4 +1,6 @@
-package com.im;
+package com.im.common;
+
+import com.im.cyptoprovider.CryptoAESProvider;
 
 import java.io.BufferedReader;
 import java.math.BigInteger;
@@ -64,7 +66,7 @@ public class HelperFunc {
 
     // Decrement Nonce
 
-    protected static byte[] dec_Nonce(byte[] nonce)
+    public static byte[] dec_Nonce(byte[] nonce)
     {
         BigInteger n = new BigInteger(nonce);
         BigInteger dec=new BigInteger("-1");
@@ -73,7 +75,7 @@ public class HelperFunc {
     }
 
     // Increment Nonce
-    protected static byte[] inc_Nonce(byte[] nonce)
+    public static byte[] inc_Nonce(byte[] nonce)
     {
         BigInteger n = new BigInteger(nonce);
         BigInteger dec=new BigInteger("1");
@@ -136,7 +138,7 @@ public class HelperFunc {
     }
 
     //Getting the concatenated encrypted message
-    protected  byte[] get_encrypted_concat_msg(int length,ArrayList<byte[]> data, CryptoAESProvider aes)
+    public byte[] get_encrypted_concat_msg(int length, ArrayList<byte[]> data, CryptoAESProvider aes)
     {
         byte[] encrypt = new byte[length];
         int l = 0;
@@ -162,7 +164,7 @@ public class HelperFunc {
     }
 
     //Getting the split message in arraylist
-    protected  ArrayList<byte[]> get_decrypted_split_msg(byte[] encryp_data, CryptoAESProvider aes)
+    public ArrayList<byte[]> get_decrypted_split_msg(byte[] encryp_data, CryptoAESProvider aes)
     {
 
         int l = 0;
@@ -201,7 +203,7 @@ public class HelperFunc {
      * To check the Timeout and return the message obtained
      * @return
      */
-    protected String checkTimeout_getMessage(BufferedReader inStream)
+    public String checkTimeout_getMessage(BufferedReader inStream)
     {
         String str = null;
         try{

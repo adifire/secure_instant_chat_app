@@ -1,4 +1,4 @@
-package com.im;
+package com.im.client;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -27,12 +27,14 @@ public class CheckClient extends Thread{
                      userConnected = cl_chat.usersConnected;
                 }
                 Iterator it = userConnected.entrySet().iterator();
-                while (it.hasNext()) {
-                    ClientTalkDetails c1 = (ClientTalkDetails)((Map.Entry)it.next()).getValue();
-                    if(check_timestamp(c1)) {
-                        System.out.println("Disconnecting user: " + c1.getUser());
-                        synchronized (cl_chat.usersConnected) {
-                            cl_chat.usersConnected.remove(c1.getUser());
+                synchronized (userConnected) {
+                    while (it.hasNext()) {
+                        ClientTalkDetails c1 = (ClientTalkDetails) ((Map.Entry) it.next()).getValue();
+                        if (check_timestamp(c1)) {
+                            System.out.println("Disconnecting user: " + c1.getUser());
+                            synchronized (cl_chat.usersConnected) {
+                                cl_chat.usersConnected.remove(c1.getUser());
+                            }
                         }
                     }
                 }

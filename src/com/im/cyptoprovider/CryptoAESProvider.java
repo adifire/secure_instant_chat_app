@@ -1,4 +1,4 @@
-package com.im;
+package com.im.cyptoprovider;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Base64;

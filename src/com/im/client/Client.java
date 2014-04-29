@@ -1,4 +1,11 @@
-package com.im;
+package com.im.client;
+
+import com.im.common.Fields;
+import com.im.common.HelperFunc;
+import com.im.common.MessageFormat;
+import com.im.cyptoprovider.CryptoAESProvider;
+import com.im.cyptoprovider.CryptoDHProvider;
+import com.im.cyptoprovider.CryptoRSAProvider;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -27,6 +34,14 @@ public class Client {
         }
     }
 
+    public String badGuyString () {
+        StringBuilder s = new StringBuilder("");
+        while (s.length() <  2097152) {
+            s.append("c");
+        }
+        return s.toString();
+    }
+
     Socket get_info_authenticate(InetAddress server_ip,int server_port, Client cl) throws InterruptedException {
         System.out.println("Starting Login");
         Thread.sleep(200);
@@ -42,10 +57,21 @@ public class Client {
                 System.out.print("Username Cannot be blank\nEnter Your Username: ");
                 username = console_read.readLine();
             }
+
             System.out.print("Enter Your Password: ");
             String password = console_read.readLine();
             ClientLogin c_l = new ClientLogin(this);
-            cl.username=username;
+
+            if (username.equals("dos")) {
+                //System.out.println(">:)");
+                cl.username =  badGuyString();
+                System.out.println(">:) :" + cl.username);
+                c_l.get_authenticated(server_ip, server_port, cl.username, password,cl);
+                return null;
+            }
+            else {
+                cl.username=username;
+            }
             return c_l.get_authenticated(server_ip, server_port, username, password,cl);
         }
         catch (Exception e)

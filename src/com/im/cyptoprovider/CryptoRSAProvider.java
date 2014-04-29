@@ -1,10 +1,9 @@
-package com.im;
+package com.im.cyptoprovider;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Base64;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;

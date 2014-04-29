@@ -1,4 +1,6 @@
-package com.im;
+package com.im.server;
+
+import com.im.cyptoprovider.CryptoRSAProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -14,16 +16,13 @@ import java.util.Iterator;
 public class Server {
 
     private ServerSocket serverSocket;
-    //private InetAddress ip_address;
     private int port;
     HashMap<String, Object> ActiveUsers = new HashMap<String, Object>();
     CryptoRSAProvider serverRSA;
     HandleUserData handleUserData;
 
-    //public Server(InetAddress ip,int port)
     public Server(int port)
     {
-        //this.ip_address = ip;
         try {
             this.serverRSA = new CryptoRSAProvider("receiver_public_key.der", "receiver_key.der");
             this.port = port;
@@ -32,43 +31,24 @@ public class Server {
             System.out.println("Error in creating Crypto class");
             e.printStackTrace();
         }
-
     }
 
     public void startServer()
     {
-        System.out.println("Server Initialized");
-
         try
         {
-            //serverSocket = new ServerSocket();
             serverSocket = new ServerSocket(port);
-            //serverSocket.setReuseAddress(true);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            System.out.println("Server socket initialization error");
-            return;
-        }
-
-        while(true)
-        {
-            try
+            System.out.println("Server Initialized");
+            while(true)
             {
                 Socket clientSocket = serverSocket.accept();
                 new Thread(new Handle_client_request(clientSocket,this)).start();
-            } catch (IOException e) {
-                e.printStackTrace();
-                break;
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Server socket initialization error");
         }
-    }
 
-    protected byte[] getUserHash(String username)
-    {
-        HelperFunc h = new HelperFunc();
-        return h.generate_pwdHash("b".getBytes(),"c".getBytes());
     }
 
     public boolean findUser (String username) {
@@ -124,7 +104,7 @@ public class Server {
             Server s = new Server(port);
             s.startServer();
         } catch (Exception e) {
-            System.out.println("Wrong input. Usage: java -cp .:../lib/* com.im.Server <port>");
+            System.out.println("Wrong input. Usage: java -cp .:../lib/* com.im.server.Server <port>");
         }
     }
 }

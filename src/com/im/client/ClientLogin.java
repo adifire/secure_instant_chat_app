@@ -1,5 +1,9 @@
-package com.im;
+package com.im.client;
 
+import com.im.common.Fields;
+import com.im.common.HelperFunc;
+import com.im.common.MessageFormat;
+import com.im.cyptoprovider.CryptoAESProvider;
 import org.bouncycastle.util.encoders.Base64;
 
 import java.io.BufferedReader;

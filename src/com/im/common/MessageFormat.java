@@ -1,4 +1,4 @@
-package com.im;
+package com.im.common;
 
 import com.google.gson.Gson;
 import org.bouncycastle.util.encoders.Base64;

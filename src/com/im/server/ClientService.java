@@ -1,4 +1,8 @@
-package com.im;
+package com.im.server;
+
+import com.im.common.Fields;
+import com.im.common.HelperFunc;
+import com.im.common.MessageFormat;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -46,17 +50,11 @@ public class ClientService extends Thread {
                 return false;
 
             /* Check if username exists and has not already logged in */
-            String username = this.getUsername(fields.data.get("username"));
+            String username = this.getUsername(fields.getUsername());
             if (username == null || this.server.findUser(username))
                 return false;
 
-            /* Now generate a new DH public key and cookie for the client */
-            CryptoDHProvider dhProvider = new CryptoDHProvider(false);
-            byte[] dhYParm = dhProvider.getPublicKey();
             this.sessionCookie = generateCookie();
-
-            //byte[] salt =
-
         } catch (IOException e) {
             e.printStackTrace();
             return false;

@@ -1,4 +1,4 @@
-package com.im;
+package com.im.common;
 
 /**
  * Created by adityarao on 30/03/14.

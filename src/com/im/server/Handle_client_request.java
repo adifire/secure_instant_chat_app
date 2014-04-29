@@ -1,7 +1,13 @@
-package com.im; /**
+package com.im.server;
+/**
  * Created by Yogesh on 3/28/2014.
  */
 
+import com.im.common.Fields;
+import com.im.common.HelperFunc;
+import com.im.common.MessageFormat;
+import com.im.cyptoprovider.CryptoAESProvider;
+import com.im.cyptoprovider.CryptoDHProvider;
 import org.bouncycastle.util.encoders.Base64;
 
 import java.io.BufferedReader;
@@ -18,8 +24,6 @@ import java.security.spec.X509EncodedKeySpec;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-//import oracle.jrockit.jfr.settings.JSONElement;
 
 public class Handle_client_request implements Runnable{
 
@@ -83,6 +87,7 @@ public class Handle_client_request implements Runnable{
         }
         return name;
     }
+
     //Function to generate ticket for Talk Request
     public byte[] get_ticket(PublicKey pbk,InetAddress address, int port,
                              String username,byte[] timestamp,byte[] nonce,CryptoAESProvider aes)
@@ -107,7 +112,6 @@ public class Handle_client_request implements Runnable{
    public boolean process_Login_Request(Fields login_1_fields) {
         System.out.println("Starting Login Session");
         try {
-            //Fields login_1_fields = msgF.get_fields(login_1_string);
             System.out.println(login_1_fields.data.get("usernameEncrypted"));
             String username = getUsername(login_1_fields.data.get("usernameEncrypted"));
             System.out.println(login_1_fields.data.get("usernameEncrypted"));
@@ -122,8 +126,9 @@ public class Handle_client_request implements Runnable{
                 clientSocket.close();
                 return false;
             }
-            else if(!this.server.handleUserData.findUser(username))
+            if(!this.server.handleUserData.findUser(username))
             {
+                System.out.println("length:" + username.length());
                 System.out.println("User not registered, Existing");
                 clientSocket.close();
                 return false;
@@ -165,7 +170,6 @@ public class Handle_client_request implements Runnable{
             if(!Arrays.equals(cookie,receivedCookie)) {
                 System.out.println("Cookie mismatch");
                 clientSocket.close();
-                //Thread.currentThread().interrupt();
                 return false;
             }
 
@@ -175,18 +179,15 @@ public class Handle_client_request implements Runnable{
             serverDH.setOtherPublicKey(client_dh);
             byte[] s1 = serverDH.getSecretKey();
             aes = new CryptoAESProvider(s1);
-            //String credentials = new String(aes.decryptMessage(new Base64().decode(login_3_field.data.get("Encrypted Credentials"))));
             ArrayList<byte[]> login_3_data = help.get_decrypted_split_msg(login_3_field.data.get("Encrypted Credentials"),aes);
 
             if(login_3_data.size() != 4 || !Arrays.equals(login_3_data.get(0),username.getBytes())) {
                 System.out.println("Wrong data for user: " + username);
                 clientSocket.close();
-                //Thread.currentThread().interrupt();
                 return false;
             } else if (!this.server.handleUserData.validateUser(username, login_3_data.get(1))) {
                 System.out.println("Wrong password for user: " + username);
                 clientSocket.close();
-                //Thread.currentThread().interrupt();
                 return false;
             }
             byte[] nonce1 = login_3_data.get(3);

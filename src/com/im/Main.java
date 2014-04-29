@@ -1,16 +1,15 @@
 package com.im;
 
+import com.im.cyptoprovider.CryptoAESProvider;
+import com.im.cyptoprovider.CryptoDHProvider;
+import com.im.server.HandleUserData;
 import org.bouncycastle.util.encoders.Base64;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
 
 public class Main {
 
@@ -18,22 +17,18 @@ public class Main {
         BigInteger p = new BigInteger("71");
         String msg = "Hello World";
 
-        /*
-        Random rnd = new Random();
+
+        //Random rnd = new Random();
         HashMap<String, String> users = new HashMap<String, String>();
         users.put("Adi", "ida");
         users.put("Yogi", "igoY");
         users.put("Neu", "euN");
 
         HandleUserData.generateUserData("user.dat", users);
-        */
+
 
         HandleUserData h = new HandleUserData("user.dat");
         h.showUsers();
-        //System.out.println(HandleUserData.findUser("Adi"));
-
-        //System.out.println(HandleUserData.validateUser("Adi",
-        //        HelperFunc.generate_pwdHash("asa".getBytes(), HandleUserData.getSalt("Adi"))));
 
         byte[] a = new Base64().encode(new Base64().encode("Helloas faksfjas fans fas dka ".getBytes()));
         SecureRandom rnd = new SecureRandom();
@@ -46,7 +41,7 @@ public class Main {
         byte[] s1 = dh1.getSecretKey();
         byte[] s2 = dh2.getSecretKey();
         System.out.println(dh1.getPublicKey().length);
-        System.out.println(Arrays.equals(s1,s2));
+        System.out.println(Arrays.equals(s1, s2));
         System.out.println(s1.length);
         System.out.println(s1);
         CryptoAESProvider aes = new CryptoAESProvider(s1);

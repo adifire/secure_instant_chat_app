@@ -1,4 +1,6 @@
-package com.im;
+package com.im.server;
+
+import com.im.common.HelperFunc;
 
 import java.io.*;
 import java.util.*;
@@ -12,7 +14,7 @@ public class HandleUserData {
         This should be done one time. Provide a hash map of usernames and corresponding passwords
         and the data will be stored in the file specified by filename parameter
      */
-    public boolean generateUserData (String filename, HashMap<String, String> users) {
+    public static boolean generateUserData(String filename, HashMap<String, String> users) {
         File userDat = new File(filename);
         try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(userDat));
